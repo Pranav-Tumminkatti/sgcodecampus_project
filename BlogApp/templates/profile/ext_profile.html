@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import blog_render_field %}
+{% block title %} {{profile.name}} {% endblock %}
+
+{% block body %} 
+<div class="p-16">
+    <div class="p-8 bg-white shadow mt-24">
+      <div class="grid grid-cols-1 md:grid-cols-3">
+        <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
+          <div>
+            <p class="font-bold text-gray-700 text-xl">{{num_blogs}}</p>
+            <p class="text-gray-400">Blogs</p>
+          </div>
+          <div>
+               <p class="font-bold text-gray-700 text-xl">{{num_views}}</p>
+            <p class="text-gray-400">Views</p>
+          </div>
+              <div>
+               <p class="font-bold text-gray-700 text-xl">{{num_comments}}</p>
+            <p class="text-gray-400">Comments</p>
+          </div>
+        </div>
+        <div class="relative mr-0">
+          <img src="{{profile.img}}" class="rounded-full lg:rounded-lg lg:block w-48 h-48 mx-auto shadow-2xl absolute inset-x-0 top-0 -mt-24 items-center justify-center">
+        </div>
+        <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
+    <a href='/your_blogs' class="text-white py-2 px-4 inline-flex items-center uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">Read Blogs</a>
+    
+    <a href='#msg' class="text-white py-2 px-4 inline-flex items-center uppercase text-center rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">Message</a>
+        </div>
+      </div>
+    
+      <div class="mt-20 text-center border-b pb-12">
+        <h1 class="text-4xl font-medium text-gray-700">{{profile.name}}</h1>
+        <p class="font-light text-gray-600 mt-3">Proud Member of Moor House</p>
+    
+        <p class="mt-8 text-gray-500">{{profile.job}}</p>
+        <p class="mt-2 text-gray-500">{{profile.location}}</p>
+      </div>
+    
+      <div class="mt-12 flex flex-col justify-center">
+        <p class="text-gray-600 text-center font-light lg:px-16">{{profile.description}}</p>
+      </div>
+    
+    </div>
+    </div>
+
+    {% if current_user.id != profile.id %}
+    <form id='msg' class="flex flex-col mx-16 mt-0" method="POST" action="{{ url_for('profile.ext_profile', id=profile.id) }}"> 
+        {{ form.csrf_token }}
+        {{ blog_render_field(form.message, class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3") }}
+        
+        <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 mt-6" type="submit">Send</button>
+    </form>
+    {% endif %}
+
+
+
+{% endblock %}
+
